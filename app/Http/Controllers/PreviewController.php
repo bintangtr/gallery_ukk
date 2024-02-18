@@ -6,6 +6,7 @@ use App\Models\Foto;
 use App\Models\Komentar;
 use App\Models\Like;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PreviewController extends Controller
 {
@@ -25,13 +26,14 @@ class PreviewController extends Controller
 
         if ($like) {
             $like->delete();
-            return redirect("/preview/".$foto_id);
+            return redirect("/preview/" . $foto_id);
         } else {
             Like::create([
                 'foto_id' => $foto_id,
                 'user_id' => auth()->id(),
+                'tanggal_like' => now(),
             ]);
-            return redirect("/preview/".$foto_id);
+            return redirect("/preview/" . $foto_id);
         }
     }
 
@@ -59,5 +61,35 @@ class PreviewController extends Controller
         } else {
             return redirect('/')->with('error', 'Anda tidak memiliki izin untuk menghapus foto ini');
         }
+    }
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'judul_foto' => 'required|string|max:255',
+            'deskripsi_foto' => 'nullable|string|max:255',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:1080', // Validasi untuk unggahan foto
+            // Tambahkan validasi lainnya sesuai kebutuhan
+        ]);
+
+        $foto = Foto::findOrFail($id);
+
+        // Proses update atribut foto
+        $foto->judul_foto = $request->judul_foto;
+        $foto->deskripsi_foto = $request->deskripsi_foto;
+        // Update atribut lainnya
+
+        // Periksa apakah ada unggahan foto baru
+        if ($request->hasFile('foto')) {
+            // Hapus foto lama jika ada
+            if ($foto->lokasi_file) {
+                Storage::delete($foto->lokasi_file);
+            }
+            // Simpan foto baru
+            $foto->lokasi_file = $request->file('foto')->store('foto', 'public');
+        }
+
+        $foto->save();
+
+        return redirect()->route('page.upload.detail.preview', $id)->with('success', 'Foto berhasil diperbarui');
     }
 }
