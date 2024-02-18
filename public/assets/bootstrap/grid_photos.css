@@ -1,0 +1,46 @@
+.photo-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.photo {
+    position: relative;
+    margin-bottom: 20px;
+    overflow: hidden; /* Untuk memastikan gambar tidak keluar dari kotak */
+}
+
+.photo img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+    object-fit: cover; /* Agar gambar memenuhi kotak dan tetap proporsional */
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.photo:hover .overlay {
+    opacity: 1;
+}
+
+.photo h4 {
+    color: #fff;
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+}
