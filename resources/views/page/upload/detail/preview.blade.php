@@ -50,14 +50,14 @@
                         <div class="container text-start">
                             <div class="d-flex justify-content-start">
                                 <div class="comments mt-3 mb-4">
-                                    {{-- @foreach ($data->comments as $comment)
+                                    @foreach ($data->comments as $comment)
                                         <div class="mb-2">
                                             <img src="{{ $comment->user->profile_picture_url }}" alt="Avatar"
                                                 class="rounded-circle me-2" style="width: 30px; height: 30px;">
                                             <span class="fw-bold">{{ $comment->user->username }}</span>
                                             {{ $comment->isi_komentar }}
                                         </div>
-                                    @endforeach --}}
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -76,7 +76,7 @@
                         </div>
 
                         <!-- Form untuk menambahkan komentar baru -->
-                        <form action="{{ route('comment.add', $data->id) }}" method="POST" class="mt-3">
+                        <form action="{{ route('comment.add', $data->foto_id) }}" method="POST" class="mt-3">
                             @csrf
                             <div class="input-group mb-3">
                                 <input type="text" name="isi_komentar" class="form-control" placeholder="Tambahkan komentar">

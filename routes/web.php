@@ -40,6 +40,6 @@ Route::middleware('auth')->group(function(){
 
     Route::get('/preview/{foto_id}', [PreviewController::class, 'preview'])->name('page.upload.detail.preview');
     Route::post('/preview/{foto_id}/like', [PreviewController::class, 'like'])->name('like.toggle');
-    Route::post('/preview/{id}/comment', [PreviewController::class, 'komentar'])->name('comment.add');
+    Route::post('/preview/{id}/comment', [PreviewController::class, 'storeKomentar'])->name('comment.add');
     Route::delete('/preview/{data}/delete', [PreviewController::class, 'delete'])->name('preview.delete');
 });
