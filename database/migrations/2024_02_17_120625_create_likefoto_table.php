@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('likefoto', function (Blueprint $table) {
-            $table->bigIncrements('like_id')->nullable();
+            $table->bigIncrements('like_id');
             $table->unsignedBigInteger('foto_id');
             $table->unsignedBigInteger('user_id');
             $table->date('tanggal_like');
