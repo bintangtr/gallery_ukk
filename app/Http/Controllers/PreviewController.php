@@ -14,8 +14,9 @@ class PreviewController extends Controller
         $data = Foto::with('user', 'comments')->find($id);
         $userId = $data->user->username;
         $isLiked = $data->likes->contains('user_id', auth()->id());
+        $like = Like::where('foto_id', $id)->get();
 
-        return view('page.upload.detail.preview', compact('data', 'userId', 'isLiked'));
+        return view('page.upload.detail.preview', compact('data', 'userId', 'isLiked', 'like'));
     }
 
     public function toggleLike(Request $request, $foto_id)
@@ -24,13 +25,13 @@ class PreviewController extends Controller
 
         if ($like) {
             $like->delete();
-            return response()->json(['message' => 'Unlike berhasil'], 200);
+            return redirect("/preview/".$foto_id);
         } else {
             Like::create([
                 'foto_id' => $foto_id,
                 'user_id' => auth()->id(),
             ]);
-            return response()->json(['message' => 'Like berhasil'], 200);
+            return redirect("/preview/".$foto_id);
         }
     }
 

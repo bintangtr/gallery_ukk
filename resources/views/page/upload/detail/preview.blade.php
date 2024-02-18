@@ -63,23 +63,31 @@
                         </div>
 
                         <div class="d-flex justify-content-start">
-                            {{-- <form action="{{ route('like.toggle', ['foto_id' => $data->foto_id]) }}" method="POST">
+                            @if ($like)
+                                <div style="margin-top: -4">
+                                    {{ $like->count() }}
+                                </div>
+                            @else
+                                0
+                            @endif
+                            <form action="{{ route('like.toggle', ['foto_id' => $data->foto_id]) }}" method="POST">
                                 @csrf
-                                <button type="submit" class="btn btn-sm btn-primary">
+                                <button type="submit" class="text-xl bg-white" style="border: none;">
                                     @if ($isLiked)
-                                        Unlike
+                                        <i class="fa-solid fa-heart text-danger"></i>
                                     @else
-                                        Like
+                                        <i class="fa-regular fa-heart"></i>
                                     @endif
                                 </button>
-                            </form> --}}
+                            </form>
                         </div>
 
                         <!-- Form untuk menambahkan komentar baru -->
                         <form action="{{ route('comment.add', $data->foto_id) }}" method="POST" class="mt-3">
                             @csrf
                             <div class="input-group mb-3">
-                                <input type="text" name="isi_komentar" class="form-control" placeholder="Tambahkan komentar">
+                                <input type="text" name="isi_komentar" class="form-control"
+                                    placeholder="Tambahkan komentar">
                                 <button type="submit" class="btn btn-dark" id="button-addon2">Kirim</button>
                             </div>
                         </form>
